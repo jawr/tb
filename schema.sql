@@ -47,8 +47,10 @@ CREATE TABLE activity_locations (
 	UNIQUE (activity_id, location_id)
 );
 
--- insert functions
+-- insert functions are all insert or get functions
 
+
+-- insert_location takes the name and a point and returns an id
 CREATE OR REPLACE FUNCTION insert_location(text, geography) RETURNS integer AS $$
 	DECLARE
 		_id integer;
@@ -61,6 +63,7 @@ CREATE OR REPLACE FUNCTION insert_location(text, geography) RETURNS integer AS $
 	END;
 $$ LANGUAGE plpgsql;
 
+-- insert_category takes the name of a category and retuns an id
 CREATE OR REPLACE  FUNCTION insert_category(text) RETURNS integer AS $$
 	DECLARE
 		_id integer;
@@ -73,6 +76,7 @@ CREATE OR REPLACE  FUNCTION insert_category(text) RETURNS integer AS $$
 	END;
 $$ LANGUAGE plpgsql;
 
+-- insert_activity takes the name of an activity and the id of a category and returns an id
 CREATE OR REPLACE  FUNCTION insert_activity(text, integer) RETURNS integer AS $$
 	DECLARE
 		_id integer;
@@ -85,6 +89,8 @@ CREATE OR REPLACE  FUNCTION insert_activity(text, integer) RETURNS integer AS $$
 	END;
 $$ LANGUAGE plpgsql;
 
+
+-- insert_keyword takes the name of a keyword and returns an id
 CREATE OR REPLACE  FUNCTION insert_keyword(text) RETURNS integer AS $$
 	DECLARE
 		_id integer;
