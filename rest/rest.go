@@ -12,9 +12,13 @@ import (
 func Start() error {
 	r := mux.NewRouter()
 	sr := r.PathPrefix("/api/v1").Subrouter()
+
+	// setup routes
 	categories.Setup(sr)
 	activities.Setup(sr)
 	locations.Setup(sr)
+
+	// start service
 	log.Println("Starting rest service...")
 	err := http.ListenAndServe("127.0.0.1:8090", r)
 	log.Println("Stoping rest service...")
