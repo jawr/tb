@@ -1,0 +1,21 @@
+{
+	"name": "tb",
+	"dependencies": {
+		"browserify": "*",
+		"gulp": "*",
+		"react": "v0.13.1",
+		"underscore": "*",
+		"moment": "*",
+		"del": "*",
+		"reactify": "*",
+		"react-router": "*",
+		"flux-react": "*",
+		"jsdifflib": "*",
+		"spin": "*",
+		"react-loader": "*",
+		"react-google-maps": "*"
+	},
+	"devDependencies": {
+		"gulp-react": "*"
+	}
+}
