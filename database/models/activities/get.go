@@ -38,10 +38,10 @@ func GetList(query string, args ...interface{}) (res []Activity, err error) {
 		return
 	}
 	rows, err := conn.Query(query, args...)
-	defer rows.Close()
 	if err != nil {
 		return
 	}
+	defer rows.Close()
 	for rows.Next() {
 		rt, err := parseRow(rows)
 		if err != nil {
