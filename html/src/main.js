@@ -1,51 +1,27 @@
-var React = require('react');
-var Router = require('react-router');
-var Route = Router.Route;
-var Transition = Router.Transition;
-var RouteHandler = Router.RouteHandler;
-var DefaultRoute = Router.DefaultRoute;
-var Index = require('./components/index/index.js');
-var Menu = require('./components/menu/menu.js');
+import React from 'react'
+import { render } from 'react-dom'
+import { Router, Route, Link, browserHistory } from 'react-router'
 
-// setup basic auth, very temp
-function getHash(username, password) {
-	var hash = username + ":" + password
-	hash = btoa(unescape(encodeURIComponent(hash)));
-	return hash;
-}
+import { Nav } from './components/nav/nav.js'
+import { Categories } from './components/category/categories.js'
 
-$.ajaxSetup({
-	headers: {
-		'Authorization': 'Basic ' + getHash()
-	}	
-});
-
-
-var App = React.createClass({
-	render: function() {
+class App extends React.Component {
+	render() {
 		return (
-			<div>
-				<Menu />
-				<div className="container" ref="container" id="main">
-					<div className="row">
-						<div className="twelve columns">
-							<RouteHandler {...this.props} />
-						</div>
-					</div>
-				</div>
+			<div className="container">
+				<Categories />
 			</div>
 		)
 	}
-});
+}
 
-var routes = (
-	<Route name="app" path="/" handler={App}>
-		<Route name="index" handler={Index} />
-		<DefaultRoute handler={Index} />
-	</Route>
-);
 
-Router.run(routes, function(Handler, state) {
-	var params = state.params;
-	React.render(<Handler params={params} />, document.body);
-});
+const router = (
+	<Router history={browserHistory}>
+		<Route path="/tb/" component={App}>
+		</Route>
+	</Router>
+)
+
+// launch app
+render(router, document.getElementById('app'));
