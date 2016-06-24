@@ -14,6 +14,7 @@ type Activity struct {
 	Category  categories.Category `json:"category"`
 	Keywords  keywords.Keywords   `json:"keywords"`
 	Locations locations.Locations `json:"locations"`
+	Alive     bool                `json:"alive"`
 }
 
 func New(name string, cat categories.Category) (a Activity, err error) {
@@ -24,6 +25,15 @@ func New(name string, cat categories.Category) (a Activity, err error) {
 		return
 	}
 	err = conn.QueryRow("SELECT insert_activity($1, $2)", name, cat.ID).Scan(&a.ID)
+	return
+}
+
+func Delete(id int) (err error) {
+	conn, err := connection.Get()
+	if err != nil {
+		return
+	}
+	_, err = conn.Exec("UPDATE activity SET alive = false WHERE id = $1", id)
 	return
 }
 
