@@ -7,19 +7,24 @@ import (
 )
 
 const (
-	SELECT string = "SELECT * FROM activity "
+	SELECT       string = "SELECT * FROM activity "
+	SELECT_ALIVE string = SELECT + "WHERE alive = true "
 )
 
 func GetAll() ([]Activity, error) {
-	return GetList(SELECT)
+	return GetList(SELECT_ALIVE)
 }
 
 func GetByID(id int) ([]Activity, error) {
 	return GetList(SELECT+" WHERE id = $1", id)
 }
 
+func GetByCategoryID(id int) ([]Activity, error) {
+	return GetList(SELECT_ALIVE+" AND category_id = $1", id)
+}
+
 func parseRow(row connection.Row) (a Activity, err error) {
-	err = row.Scan(&a.ID, &a.Name, &a.Slug, &a.Category.ID)
+	err = row.Scan(&a.ID, &a.Name, &a.Slug, &a.Category.ID, &a.Alive)
 	if err != nil {
 		return
 	}
@@ -38,10 +43,10 @@ func GetList(query string, args ...interface{}) (res []Activity, err error) {
 		return
 	}
 	rows, err := conn.Query(query, args...)
-	defer rows.Close()
 	if err != nil {
 		return
 	}
+	defer rows.Close()
 	for rows.Next() {
 		rt, err := parseRow(rows)
 		if err != nil {

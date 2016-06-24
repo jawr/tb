@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS category;
 CREATE TABLE category (
 	id serial,
 	name text,
+	alive boolean default true,
 	PRIMARY KEY (id),
 	UNIQUE (name)
 );
@@ -12,6 +13,7 @@ CREATE TABLE activity (
 	name text,
 	slug text not null default '',
 	category_id integer,
+	alive boolean default true,
 	PRIMARY KEY (id),
 	UNIQUE (name, category_id)
 );
@@ -47,8 +49,10 @@ CREATE TABLE activity_locations (
 	UNIQUE (activity_id, location_id)
 );
 
--- insert functions
+-- insert functions are all insert or get functions
 
+
+-- insert_location takes the name and a point and returns an id
 CREATE OR REPLACE FUNCTION insert_location(text, geography) RETURNS integer AS $$
 	DECLARE
 		_id integer;
@@ -61,30 +65,36 @@ CREATE OR REPLACE FUNCTION insert_location(text, geography) RETURNS integer AS $
 	END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE  FUNCTION insert_category(text) RETURNS integer AS $$
+-- insert_category takes the name of a category and retuns an id
+CREATE OR REPLACE FUNCTION insert_category(text) RETURNS integer AS $$
 	DECLARE
 		_id integer;
 	BEGIN
 		INSERT INTO category (name) VALUES ($1) RETURNING id INTO _id;
 		RETURN _id;
 	EXCEPTION WHEN UNIQUE_VIOLATION THEN
+		UPDATE category SET alive = true WHERE name = $1 AND alive = false;
 		SELECT id INTO _id FROM category WHERE name = $1;
 		RETURN _id;
 	END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE  FUNCTION insert_activity(text, integer) RETURNS integer AS $$
+-- insert_activity takes the name of an activity and the id of a category and returns an id
+CREATE OR REPLACE FUNCTION insert_activity(text, integer) RETURNS integer AS $$
 	DECLARE
 		_id integer;
 	BEGIN
 		INSERT INTO activity (name, category_id) VALUES ($1, $2) RETURNING id INTO _id;
 		RETURN _id;
 	EXCEPTION WHEN UNIQUE_VIOLATION THEN
+		UPDATE activity SET alive = true WHERE name = $1 AND category_id = $2 AND alive = false;
 		SELECT id INTO _id FROM activity WHERE name = $1 AND category_id = $2;
 		RETURN _id;
 	END;
 $$ LANGUAGE plpgsql;
 
+
+-- insert_keyword takes the name of a keyword and returns an id
 CREATE OR REPLACE  FUNCTION insert_keyword(text) RETURNS integer AS $$
 	DECLARE
 		_id integer;

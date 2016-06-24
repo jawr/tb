@@ -1,21 +1,18 @@
 {
-	"name": "tb",
-	"dependencies": {
-		"browserify": "*",
-		"gulp": "*",
-		"react": "v0.13.1",
-		"underscore": "*",
-		"moment": "*",
-		"del": "*",
-		"reactify": "*",
-		"react-router": "*",
-		"flux-react": "*",
-		"jsdifflib": "*",
-		"spin": "*",
-		"react-loader": "*",
-		"react-google-maps": "*"
-	},
-	"devDependencies": {
-		"gulp-react": "*"
-	}
+  "name": "tb",
+  "devDependencies": {
+	"babelify": "^7.3.0",
+	"babel-preset-es2015": "*",
+	"babel-preset-react": "*",
+    "browserify": "*",
+    "del": "*",
+    "flux-react": "*",
+    "gulp": "*",
+    "gulp-react": "*",
+    "moment": "*",
+    "react": "*",
+    "react-google-maps": "*",
+    "react-router": "*",
+    "underscore": "*"
+  }
 }

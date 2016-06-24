@@ -35,3 +35,4 @@ _testmain.go
 *.prof
 
 html/www/js/
+*.old

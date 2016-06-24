@@ -5,11 +5,12 @@ import (
 )
 
 const (
-	SELECT string = "SELECT * FROM category "
+	SELECT       string = "SELECT * FROM category "
+	SELECT_ALIVE string = SELECT + " WHERE alive = true "
 )
 
 func GetAll() ([]Category, error) {
-	return GetList(SELECT)
+	return GetList(SELECT_ALIVE)
 }
 
 func GetByID(id int) ([]Category, error) {
@@ -17,7 +18,7 @@ func GetByID(id int) ([]Category, error) {
 }
 
 func parseRow(row connection.Row) (c Category, err error) {
-	err = row.Scan(&c.ID, &c.Name)
+	err = row.Scan(&c.ID, &c.Name, &c.Alive)
 	return
 }
 
@@ -27,10 +28,10 @@ func GetList(query string, args ...interface{}) (res []Category, err error) {
 		return
 	}
 	rows, err := conn.Query(query, args...)
-	defer rows.Close()
 	if err != nil {
 		return
 	}
+	defer rows.Close()
 	for rows.Next() {
 		rt, err := parseRow(rows)
 		if err != nil {
