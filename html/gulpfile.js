@@ -3,10 +3,33 @@ var browserify = require('browserify');
 var fs = require('fs');
 var del = require('del');
 var sass = require('gulp-sass');
+var cssmodulesify = require('css-modulesify');
+var simpleVars = require('postcss-simple-vars');
+var doiuse = require('doiuse');
 
 
 gulp.task('app', function() {
 	del(['./www/js/app.js']);
+
+	var postCSSPlugins = [
+		'postcss-modules-local-by-default',
+		'postcss-modules-extract-imports',
+		'postcss-modules-scope'
+	];
+/*
+https://github.com/jonnyscholes/browserify-gulp-react-demo/blob/master/gulpfile.js
+		simpleVars({
+			variables: cssVariables
+		}),
+		doiuse({
+			browsers:['ie >= 9', '> 1%', 'last 2 versions'],
+			onFeatureUsage: function(usageInfo) {
+				logStatsPretty(usageInfo.message);
+			}
+		})
+	];
+*/
+
 	return browserify('./src/main.js')
 	.transform('babelify', {
 		presets: ['es2015', 'react'],
@@ -18,6 +41,10 @@ gulp.task('app', function() {
 	.external(require.resolve('moment'))
 	.external(require.resolve('normalize'))
 	.external(require.resolve('react-leaflet'))
+	.plugin('css-modulesify', {
+		o: 'www/css/gen.css',
+		use: postCSSPlugins
+	})
 	.bundle(function(err, app) {
 		fs.writeFile('./www/js/app.js', app);
 	});

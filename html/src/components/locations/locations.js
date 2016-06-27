@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table } from 'reactable'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import styles from './locations.css'
 
 export class Locations extends React.Component {
 	constructor(props) {
@@ -25,7 +26,7 @@ export class Locations extends React.Component {
 		);
 		return (
 			<Map
-				className="location"
+				className={styles.location}
 				key={markers.length}
 				center={center}
 				zoom={8}
