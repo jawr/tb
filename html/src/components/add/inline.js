@@ -7,16 +7,13 @@ export class InlineAdd extends React.Component {
 			config: props.setup,
 			value: ''
 		}
-
-		this.handleChange = this.handleChange.bind(this);
-		this.handleClick = this.handleClick.bind(this);
 	}
 
-	handleChange(e) {
+	handleChange = (e) => {
 		this.setState({value: e.target.value});
 	}
 
-	handleClick() {
+	handleClick = () => {
 		this.state.config.handleClick(this.state.value);
 	}
 

@@ -11,10 +11,6 @@ export class Activity extends React.Component {
 			activity: {}
 		};
 
-		this.handleChange = this.handleChange.bind(this);
-		this.renderKeywords = this.renderKeywords.bind(this);
-		this.renderLocations = this.renderLocations.bind(this);
-
 		ActivityStore.on('Get.' + this.props.params.id, this.handleChange);
 		ActivityStore.GetByID(this.props.params.id);
 	}
@@ -23,11 +19,11 @@ export class Activity extends React.Component {
 		ActivityStore.off('Get.' + this.props.params.id, this.handleChange);
 	}
 
-	handleChange(activity) {
+	handleChange = (activity) => {
 		this.setState({activity: activity});
 	}
 
-	renderKeywords() {
+	renderKeywords = () => {
 		return (
 			<div>
 				<h5>Keywords</h5>
@@ -36,7 +32,7 @@ export class Activity extends React.Component {
 		)
 	}
 
-	renderLocations() {
+	renderLocations = () => {
 		return (
 			<div>
 				<h5>Locations</h5>

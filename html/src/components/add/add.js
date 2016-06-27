@@ -10,20 +10,17 @@ export class Add extends React.Component {
 			busy: props.busy || false,
 			value: ''
 		}
-
-		this.handleChange = this.handleChange.bind(this);
-		this.handleClick = this.handleClick.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({busy: nextProps.busy || false});
 	}
 
-	handleChange(e) {
+	handleChange = (e) => {
 		this.setState({value: e.target.value});
 	}
 
-	handleClick() {
+	handleClick = () => {
 		this.state.config.handleClick(this.state.value);
 	}
 

@@ -9,11 +9,9 @@ export class Locations extends React.Component {
 		this.state = {
 			current: this.props.locations[0]
 		};
-
-		this.handleClick = this.handleClick.bind(this);
 	}
 
-	handleClick(location) {
+	handleClick = (location) => {
 		this.setState({location: location});
 	}
 

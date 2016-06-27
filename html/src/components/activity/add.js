@@ -12,11 +12,6 @@ export class AddActivity extends React.Component {
 			id: Math.random().toString(36).substr(2, 9)
 		};
 
-		// binds
-		this.setup = this.setup.bind(this);
-		this.handleClick = this.handleClick.bind(this);
-		this.handleInsert = this.handleInsert.bind(this);
-
 		// store handlers
 		ActivityStore.on('Insert.'+this.state.id, this.handleInsert);
 
@@ -26,19 +21,19 @@ export class AddActivity extends React.Component {
 		ActivityStore.off('Insert.'+this.state.id, this.handleInsert);
 	}
 
-	handleInsert(obj) {
+	handleInsert = (obj) => {
 		this.setState({
 			busy: false,
 			child: <p>Added {obj.name}</p>
 		});
 	}
 
-	handleClick(value) {
+	handleClick = (value) => {
 		this.setState({busy: true});
 		ActivityStore.Insert(this.state.id, value, this.props.category);
 	}
 
-	setup() {
+	setup = () => { 
 		return {
 			header: "Add Activity",
 			slug: "Create a new Activity",

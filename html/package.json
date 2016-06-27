@@ -1,10 +1,12 @@
 {
   "name": "tb",
   "devDependencies": {
-	"babelify": "^7.3.0",
-	"babel-preset-es2015": "*",
-	"babel-preset-react": "*",
-	"react-leaflet": "*",
+    "babel-plugin-autobind-class-methods": "^1.0.4",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.8.0",
+    "babel-plugin-transform-react-binding": "^0.1.2",
+    "babel-preset-es2015": "*",
+    "babel-preset-react": "*",
+    "babelify": "^7.3.0",
     "browserify": "*",
     "del": "*",
     "flux-react": "*",
@@ -12,8 +14,9 @@
     "gulp-react": "*",
     "moment": "*",
     "react": "*",
+    "react-leaflet": "*",
     "react-router": "*",
-    "underscore": "*",
-    "reactable": "*"
+    "reactable": "*",
+    "underscore": "*"
   }
 }

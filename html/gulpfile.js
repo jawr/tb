@@ -2,11 +2,16 @@ var gulp = require('gulp');
 var browserify = require('browserify');
 var fs = require('fs');
 var del = require('del');
+var sass = require('gulp-sass');
+
 
 gulp.task('app', function() {
 	del(['./www/js/app.js']);
 	return browserify('./src/main.js')
-	.transform("babelify", {presets: ["es2015", "react"]})
+	.transform('babelify', {
+		presets: ['es2015', 'react'],
+		plugins: ['transform-class-properties']
+	})
 	.external(require.resolve('react-router'))
 	.external(require.resolve('react'))
 	.external(require.resolve('flux-react'))
@@ -36,4 +41,10 @@ gulp.task('watch', function() {
 	gulp.watch('./src/**/*.js', ['app']);
 });
 
-gulp.task('default', ['watch', 'app', 'common']);
+gulp.task('sass', function () {
+    gulp.src('./sass/**/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./www/css'));
+});
+
+gulp.task('default', ['watch', 'app', 'common', 'sass']);

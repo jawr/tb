@@ -8,10 +8,6 @@ export class Category extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.handleCategoryChange = this.handleCategoryChange.bind(this);
-		this.handleActivityDelete = this.handleActivityDelete.bind(this);
-		this.renderActivities = this.renderActivities.bind(this);
-
 		ActivityStore.on('Get.Cat.' + props.category.id, this.handleCategoryChange);
 
 		ActivityStore.GetByCategory(this.props.category);
@@ -21,15 +17,15 @@ export class Category extends React.Component {
 		ActivityStore.off('Get.Cat.' + this.props.category.id, this.handleCategoryChange);
 	}
 
-	handleCategoryChange() {
+	handleCategoryChange = () => {
 		this.setState({});
 	}
 
-	handleActivityDelete(activity) {
+	handleActivityDelete = (activity) => {
 		ActivityStore.Delete(activity);
 	}
 
-	renderActivities() {
+	renderActivities = () => {
 		const self = this;
 		const activities = ActivityStore.ByCategory(this.props.category).map(
 			function(i, idx) {

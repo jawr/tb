@@ -7,9 +7,6 @@ export class Categories extends React.Component {
 	constructor(props) {
 		super(props);
 
-		// binds
-		this.handleChange = this.handleChange.bind(this);
-
 		// store handlers
 		CategoryStore.on('Get', this.handleChange);
 		CategoryStore.on('GetAll', this.handleChange);
@@ -21,7 +18,7 @@ export class Categories extends React.Component {
 		CategoryStore.off('GetAll', this.handleChange);
 	}
 
-	handleChange(list) {
+	handleChange = (list) => {
 		this.setState({});
 	}
 
