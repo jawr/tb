@@ -10,8 +10,9 @@ gulp.task('app', function() {
 	.external(require.resolve('react-router'))
 	.external(require.resolve('react'))
 	.external(require.resolve('flux-react'))
-	//.external(require.resolve('moment'))
-	.external(require.resolve('react-google-maps'))
+	.external(require.resolve('moment'))
+	.external(require.resolve('normalize'))
+	.external(require.resolve('react-leaflet'))
 	.bundle(function(err, app) {
 		fs.writeFile('./www/js/app.js', app);
 	});
@@ -24,7 +25,8 @@ gulp.task('common', function() {
 	.require(require.resolve('react-router'), { expose: 'react-router' })
 	.require(require.resolve('flux-react'), { expose: 'flux-react' })
 	.require(require.resolve('moment'), { expose: 'moment' })
-	//.require(require.resolve('react-google-maps'), { expose: 'react-google-maps' })
+	.require(require.resolve('normalize'), { expose: 'normalize' })
+	.require(require.resolve('react-leaflet'), { expose: 'react-leaflet' })
 	.bundle(function(err, libs) {
 		fs.writeFile('./www/js/common.js', libs);
 	});

@@ -11,7 +11,7 @@ import (
 
 func main() {
 	log.Println("Starting training buddy")
-	testDatabaseModels()
+	//testDatabaseModels()
 	err := rest.Start()
 	if err != nil {
 		log.Fatal(err)

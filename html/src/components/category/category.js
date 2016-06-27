@@ -1,6 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router'
 import { AddActivity } from '../activity/add.js'
 import { ActivityStore } from '../activity/store.js'
+import { Keyword } from '../keyword/keyword.js'
 
 export class Category extends React.Component {
 	constructor(props) {
@@ -10,13 +12,13 @@ export class Category extends React.Component {
 		this.handleActivityDelete = this.handleActivityDelete.bind(this);
 		this.renderActivities = this.renderActivities.bind(this);
 
-		ActivityStore.on('Get.' + props.category.id, this.handleCategoryChange);
+		ActivityStore.on('Get.Cat.' + props.category.id, this.handleCategoryChange);
 
 		ActivityStore.GetByCategory(this.props.category);
 	}
 
 	componentWillUnmount() {
-		ActivityStore.off('Get.' + this.props.category.id, this.handleCategoryChange);
+		ActivityStore.off('Get.Cat.' + this.props.category.id, this.handleCategoryChange);
 	}
 
 	handleCategoryChange() {
@@ -38,11 +40,14 @@ export class Category extends React.Component {
 					</ul>
 				)
 				let keywords = null;
-				if (i.keywords)
-					keywords = i.keywords.map(function(i, idx) { return <p key={idx}>{i.name}</p> });
+				if (i.keywords) {
+					keywords = i.keywords.map(function(i, idx) { 
+						return <Keyword key={idx} keyword={i} />
+					});
+				}
 				return (
 					<tr key={idx}>
-						<td>{i.name}</td>
+						<td><Link to={`/tb/activity/${i.id}`}>{i.name}</Link></td>
 						<td>{i.slug}</td>
 						<td>{keywords}</td>
 						<td>{(i.locations) ? i.locations.length : 0}</td>
