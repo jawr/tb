@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import AddActivity from '../activity/add.js'
 import ActivityStore from '../activity/store.js'
 import Keyword from '../keyword/keyword.js'
+import style from './style.scss'
 
 export default class Category extends React.Component {
 	constructor(props) {
@@ -73,7 +74,7 @@ export default class Category extends React.Component {
 	render() {
 		const category = this.props.category;
 		return (
-			<div className="block">
+			<div className={style.category}>
 				<h5>{category.name}</h5>
 				{this.renderActivities()}
 				<AddActivity category={category} />

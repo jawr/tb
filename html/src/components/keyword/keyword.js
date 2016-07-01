@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './keyword.scss'
+import style from './style.scss'
 
 export default class Keyword extends React.Component {
 	constructor(props) {
@@ -19,8 +19,8 @@ export default class Keyword extends React.Component {
 		if (this.state.ro) { return }
 		// might not be cross compat - http://stackoverflow.com/questions/4697758/prevent-onmouseout-when-hovering-child-element-of-the-parent-absolute-div-withou
 		var e = event.toElement || event.relatedTarget;
-		if (e.parentNode.className == styles.keyword 
-		|| e.className == styles.keyword) {
+		if (e.parentNode.className == style.keyword 
+		|| e.className == style.keyword) {
 			return;
 		}
 		this.setState({mouseover: false});
@@ -35,7 +35,7 @@ export default class Keyword extends React.Component {
 			return (
 				<span 
 					onClick={this.handleDeleteClick}
-					className={styles.delete}
+					className={style.delete}
 				>x</span>
 			)
 		}
@@ -45,7 +45,7 @@ export default class Keyword extends React.Component {
 	render() {
 		return (
 			<span 
-				className={styles.keyword}
+				className={style.keyword}
 				onMouseOver={this.handleMouseover}
 				onMouseOut={this.handleMouseout}
 			>

@@ -37,7 +37,7 @@ const CategoryStore = Flux.createStore({
 		const self = this;
 		$.ajax({
 			type: 'DELETE',
-			url: URL+'/'+obj.id+'/',
+			url: URL+obj.id,
 			data: JSON.stringify(obj)
 		})
 		.done(function(data) {

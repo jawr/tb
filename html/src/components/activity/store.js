@@ -42,7 +42,7 @@ const ActivityStore = Flux.createStore({
 		const self = this;
 		$.ajax({
 			type: 'DELETE',
-			url: URL+'/'+obj.id+'/',
+			url: URL+obj.id,
 			data: JSON.stringify(obj)
 		})
 		.done(function(data) {
@@ -61,7 +61,7 @@ const ActivityStore = Flux.createStore({
 	},
 	_getByCategory: function(category) {
 		const self = this;
-		$.get(URL+'category/'+category.id+'/')
+		$.get(URL+'category/'+category.id)
 		.done(function(data) {
 			const list = JSON.parse(data);
 			if (list.length > 0) {
@@ -75,7 +75,7 @@ const ActivityStore = Flux.createStore({
 	},
 	_getByID: function(id) {
 		const self = this;
-		$.get(URL+id+'/')
+		$.get(URL+id)
 		.done(function(data) {
 			const obj = JSON.parse(data);
 			self.emit('Get.'+id, obj[0]);

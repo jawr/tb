@@ -23,7 +23,7 @@ var config = {
 			{
 				test: /\.scss$/,
 				exclude: /node_modules/,
-				loader: extractCSS.extract(['css?modules','sass'])
+				loader: extractCSS.extract(['css?modules&localIdentName=[path][name]---[local]','sass'])
 			}
 		]
 	},

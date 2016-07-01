@@ -1,14 +1,20 @@
 import React from 'react';
+import style from './style.scss';
+import { Link } from 'react-router'
 
-export class Nav extends React.Component {
+export default class Nav extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
 	render() {
 		return (
-			<div>
-				<p>Nav</p>
+			<div className={style.wrapper}>
+				<div className={style.bar}>
+					<h1><Link to="/tb/">TB</Link></h1>
+				</div>
+
+				{this.props.children}
 			</div>
 		)
 	}

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Table } from 'reactable'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
-import styles from './locations.scss'
 import AddLocation from './add.js'
+import style from './style.scss'
 
 export default class Locations extends React.Component {
 	constructor(props) {
@@ -46,7 +46,7 @@ export default class Locations extends React.Component {
 		const center = this.props.locations[0].point;
 		return (
 			<Map
-				className={styles.location}
+				className={style.location}
 				key={markers.length}
 				center={center}
 				zoom={8}
@@ -65,7 +65,7 @@ export default class Locations extends React.Component {
 		const locations = this.props.locations.map(function(i, idx) {
 			let className = null;
 			if (self.state.mouseOver && self.state.mouseOver.id == i.id) 
-				className = styles.activeLocation;
+				className = style.activeLocation;
 			return (
 				<tr key={idx}>
 					<td className={className}>{i.name}</td>
@@ -92,6 +92,7 @@ export default class Locations extends React.Component {
 					</div>
 				</div>
 				<div className="row">
+					<br />
 					<AddLocation activity={this.props.activity} />
 				</div>
 			</div>

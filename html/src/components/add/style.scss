@@ -1,0 +1,34 @@
+.add {
+	h1 {
+		font-size: 2rem !important;
+	}
+
+	input[type="text"] {
+		margin-right: 2rem;
+		position: relative;
+		top: 1px;
+		width: 60%;
+	}
+
+	button {
+		border: 1px solid #d1d1d1;
+		&:hover {
+			border-color: #888;
+		}
+	}
+
+	form {
+		margin-bottom: 0;
+	}
+
+	.header {
+		color: #1EAEDB;
+		cursor: pointer;
+		font-size: 1.7rem;
+	}
+
+	.headerActive {
+		@extend .header;
+		color: #222;
+	}
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import ActivityStore from './store.js'
 import Keywords from '../keyword/keywords.js'
 import Locations from '../locations/locations.js'
-import styles from './activity.scss'
+import style from './style.scss'
 
 export default class Activity extends React.Component {
 	constructor(props) {
@@ -25,23 +25,19 @@ export default class Activity extends React.Component {
 	}
 
 	renderKeywords = () => {
-		return <Keywords keywords={this.state.activity.keywords} />
+		return <Keywords activity={this.state.activity} />
 	}
 
 	renderLocations = () => {
-		return (
-			<div>
-				<Locations activity={this.state.activity} locations={this.state.activity.locations} />
-			</div>
-		)
+		return <Locations activity={this.state.activity} locations={this.state.activity.locations} />
 	}
 
 	render() {
 		if ($.isEmptyObject(this.state.activity)) return null
 		const activity = this.state.activity;
 		return (
-			<div className="block">
-				<h4>{activity.name} <small className={styles.category}>{activity.category.name}</small></h4>
+			<div className={style.activity}>
+				<h4>{activity.name} <small className={style.category}>{activity.category.name}</small></h4>
 				<p>{activity.slug}</p>
 				
 				{this.renderKeywords()}

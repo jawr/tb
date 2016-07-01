@@ -2,6 +2,7 @@ import React from 'react'
 import Category from './category.js'
 import CategoryStore from './store.js'
 import AddCategory from './add.js'
+import style from './style.scss'
 
 export default class Categories extends React.Component {
 	constructor(props) {
@@ -29,13 +30,13 @@ export default class Categories extends React.Component {
 			)
 		});
 		return (
-			<div className="row">
-				<div className="twelve columns">
-					<h3>Categories</h3>
+			<div>
+				<div className={style.categories}>
+					<h1>Categories</h1>
 					<p>Overview of the categories currently in the system</p>
-					{categories}
 					<AddCategory />
 				</div>
+				{categories}
 			</div>
 		)
 	}

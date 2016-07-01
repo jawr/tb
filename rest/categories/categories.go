@@ -20,7 +20,7 @@ var routes = util.Routes{
 	util.Route{
 		"ByID",
 		"GET",
-		"/{id}/",
+		"/{id}",
 		ByID(serve),
 	},
 	util.Route{

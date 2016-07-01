@@ -1,0 +1,15 @@
+@import '../../sass/global.scss';
+
+.categories {
+	@extend .panel;
+	margin-bottom: 2rem;
+	
+	h1 {
+		font-size: 3rem;
+	}
+}
+
+.category {
+	@extend .panel;
+	margin-bottom: 2rem;
+}

@@ -1,0 +1,37 @@
+@import '../../sass/transitions.scss';
+
+.bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 5rem;
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+	z-index: 100;
+
+
+	h1 {
+		@extend .tran-color;
+
+		&:hover {
+			color: #eee;
+		}
+
+		a {
+			text-decoration: none;
+			font-weight: 300;
+			color: #555;
+		}
+
+		cursor: pointer;
+
+		font-size: 3rem;
+		line-height: 5rem;
+		margin-left: 0.6rem;
+	}
+}
+
+.wrapper {
+	padding-top: 7rem;
+}

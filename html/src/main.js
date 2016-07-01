@@ -9,9 +9,11 @@ import Activity from './components/activity/activity.js'
 class App extends React.Component {
 	render() {
 		return (
-			<div className="container">
-				{this.props.children}
-			</div>
+			<Nav>
+				<div className="container">
+					{this.props.children}
+				</div>
+			</Nav>
 		)
 	}
 }

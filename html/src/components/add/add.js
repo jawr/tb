@@ -1,4 +1,5 @@
 import React from 'react';
+import style from './style.scss';
 
 export default class Add extends React.Component {
 	constructor(props) {
@@ -6,7 +7,8 @@ export default class Add extends React.Component {
 		this.state = {
 			config: props.setup,
 			busy: props.busy || false,
-			value: ''
+			value: '',
+			show: props.show || false
 		}
 	}
 
@@ -22,33 +24,42 @@ export default class Add extends React.Component {
 		this.state.config.handleClick(this.state.value);
 	}
 
+	handleHeaderClick = () => {
+		this.setState({show: !this.state.show});
+	}
+
 	render() {
 		const config = this.state.config;
 		const busy = this.state.busy;
-		return(
-			<div>
-				<h5>{config.header}</h5>
-				<p>{config.slug}</p>
-				<form>
+		let headerClass = style.header;
+		let form = null;
+		if (this.state.show) {
+			headerClass = style.headerActive;
+			form = (
+				<div>
 					<div className="row">
-						<div className="three columns">
+						<form>
 							<input 
 								type="text"
 								value={this.state.value} 
 								onChange={this.handleChange} 
 							/>
-						</div>
-						<div className="three columns">
 							<button 
 								onClick={this.handleClick} 
 								disabled={busy}
-							>Add</button>
-						</div>
-						<div className="three columns">
-							{this.props.children}
-						</div>
+								>Add</button>
+						</form>
 					</div>
-				</form>
+					<div className="row">
+						{this.props.children}
+					</div>
+				</div>
+			)
+		}
+		return(
+			<div className={style.add}>
+				<h1 onClick={this.handleHeaderClick} className={headerClass}>{config.header}</h1>
+				{form}
 			</div>
 		)
 	}

@@ -20,7 +20,7 @@ const LocationStore = Flux.createStore({
 			postcode: postcode,
 			activity: activity
 		};
-		$.post(URL + 'find-and-add/', JSON.stringify(obj))
+		$.post(URL + 'find-and-add', JSON.stringify(obj))
 		.done(function(data) {
 			const _obj = JSON.parse(data);
 			self.emit('Insert.'+_id, _obj);
@@ -34,7 +34,7 @@ const LocationStore = Flux.createStore({
 		const self = this;
 		$.ajax({
 			type: 'DELETE',
-			url: URL+'/'+obj.id+'/',
+			url: URL+obj.id,
 			data: JSON.stringify(obj)
 		})
 		.done(function(data) {

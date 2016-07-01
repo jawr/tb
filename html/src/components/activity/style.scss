@@ -1,0 +1,13 @@
+@import '../../sass/global.scss';
+
+.category {
+	@extend .label;
+
+	background: #EEE;
+	position: relative;
+	top: -0.4rem;
+}
+
+.activity {
+	@extend .panel;
+}
