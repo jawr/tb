@@ -21,11 +21,11 @@ func GetByPointRadiusM(p Point, m int) ([]Location, error) {
 }
 
 func GetByActivityID(id int) ([]Location, error) {
-	return GetList("SELECT k.* FROM location k JOIN activity_locations a ON a.location_id = k.id WHERE a.activity_id = $1", id)
+	return GetList("SELECT l.* FROM location l JOIN activity_locations a ON a.location_id = l.id WHERE a.activity_id = $1", id)
 }
 
 func parseRow(row connection.Row) (l Location, err error) {
-	err = row.Scan(&l.ID, &l.Name, &l.Point)
+	err = row.Scan(&l.ID, &l.Name, &l.Point, &l.Address)
 	return
 }
 

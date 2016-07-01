@@ -1,9 +1,10 @@
 import React from 'react'
-import { ActivityStore } from './store.js'
-import { Keywords } from '../keyword/keywords.js'
-import { Locations } from '../locations/locations.js'
+import ActivityStore from './store.js'
+import Keywords from '../keyword/keywords.js'
+import Locations from '../locations/locations.js'
+import styles from './activity.scss'
 
-export class Activity extends React.Component {
+export default class Activity extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -24,19 +25,13 @@ export class Activity extends React.Component {
 	}
 
 	renderKeywords = () => {
-		return (
-			<div>
-				<h5>Keywords</h5>
-				<Keywords keywords={this.state.activity.keywords} />
-			</div>
-		)
+		return <Keywords keywords={this.state.activity.keywords} />
 	}
 
 	renderLocations = () => {
 		return (
 			<div>
-				<h5>Locations</h5>
-				<Locations locations={this.state.activity.locations} />
+				<Locations activity={this.state.activity} locations={this.state.activity.locations} />
 			</div>
 		)
 	}
@@ -46,7 +41,7 @@ export class Activity extends React.Component {
 		const activity = this.state.activity;
 		return (
 			<div className="block">
-				<h4>{activity.name} <small>{activity.category.name}</small></h4>
+				<h4>{activity.name} <small className={styles.category}>{activity.category.name}</small></h4>
 				<p>{activity.slug}</p>
 				
 				{this.renderKeywords()}

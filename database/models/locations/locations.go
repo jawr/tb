@@ -6,9 +6,10 @@ import (
 )
 
 type Location struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Point Point  `json:"point"`
+	ID      int    `json:"id"`
+	Name    string `json:"name"`
+	Point   Point  `json:"point"`
+	Address string `json:"address"`
 }
 
 type Locations []Location
@@ -36,7 +37,12 @@ func (l Location) Save() (err error) {
 	if err != nil {
 		return
 	}
-	_, err = conn.Exec("UPDATE location SET name = $1 WHERE id = $2", l.Name, l.ID)
+	_, err = conn.Exec(
+		"UPDATE location SET name = $1, address = $2 WHERE id = $3",
+		l.Name,
+		l.Address,
+		l.ID,
+	)
 	return
 }
 

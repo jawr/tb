@@ -31,6 +31,7 @@ CREATE TABLE location (
 	id serial,
 	name text,
 	point geography(point, 4326),
+	address text default '',
 	PRIMARY KEY (id),
 	UNIQUE (point)
 );

@@ -1,8 +1,8 @@
 import React from 'react';
-import ActivityStore from './store.js';
+import LocationStore from './store.js';
 import Add from '../add/add.js';
 
-export default class AddActivity extends React.Component {
+export default class AddLocation extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -13,12 +13,12 @@ export default class AddActivity extends React.Component {
 		};
 
 		// store handlers
-		ActivityStore.on('Insert.'+this.state.id, this.handleInsert);
+		LocationStore.on('Insert.'+this.state.id, this.handleInsert);
 
 	}
 
 	componentWillUnmount() {
-		ActivityStore.off('Insert.'+this.state.id, this.handleInsert);
+		LocationStore.off('Insert.'+this.state.id, this.handleInsert);
 	}
 
 	handleInsert = (obj) => {
@@ -30,13 +30,13 @@ export default class AddActivity extends React.Component {
 
 	handleClick = (value) => {
 		this.setState({busy: true});
-		ActivityStore.Insert(this.state.id, value, this.props.category);
+		LocationStore.Insert(this.state.id, value, this.props.activity);
 	}
 
 	setup = () => { 
 		return {
-			header: "Add Activity",
-			slug: "Create a new Activity",
+			header: "Add Location",
+			slug: "Create a new Location",
 			handleClick: this.handleClick
 		}
 	}
@@ -52,6 +52,7 @@ export default class AddActivity extends React.Component {
 	}
 }
 
-AddActivity.propTypes = {
-	category: React.PropTypes.object.isRequired	
+AddLocation.propTypes = {
+	activity: React.PropTypes.object.isRequired	
 };
+

@@ -77,5 +77,5 @@ const CategoryStore = Flux.createStore({
 	}
 });
 
-export { CategoryStore };
+export default CategoryStore;
 

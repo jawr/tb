@@ -105,4 +105,4 @@ const ActivityStore = Flux.createStore({
 	}
 });
 
-export { ActivityStore };
+export default ActivityStore;

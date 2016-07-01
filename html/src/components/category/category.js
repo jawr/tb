@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { AddActivity } from '../activity/add.js'
-import { ActivityStore } from '../activity/store.js'
-import { Keyword } from '../keyword/keyword.js'
+import AddActivity from '../activity/add.js'
+import ActivityStore from '../activity/store.js'
+import Keyword from '../keyword/keyword.js'
 
-export class Category extends React.Component {
+export default class Category extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -38,12 +38,12 @@ export class Category extends React.Component {
 				let keywords = null;
 				if (i.keywords) {
 					keywords = i.keywords.map(function(i, idx) { 
-						return <Keyword key={idx} keyword={i} />
+						return <Keyword key={idx} keyword={i} ro={true} />
 					});
 				}
 				return (
 					<tr key={idx}>
-						<td><Link to={`/tb/activity/${i.id}`}>{i.name}</Link></td>
+						<td><Link to={`/tb/activity/${i.name}/${i.id}`}>{i.name}</Link></td>
 						<td>{i.slug}</td>
 						<td>{keywords}</td>
 						<td>{(i.locations) ? i.locations.length : 0}</td>
@@ -80,4 +80,8 @@ export class Category extends React.Component {
 			</div>
 		)
 	}
+}
+
+Category.propTypes = {
+	category: React.PropTypes.object.isRequired
 }

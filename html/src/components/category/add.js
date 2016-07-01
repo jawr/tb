@@ -1,8 +1,8 @@
 import React from 'react';
-import { CategoryStore } from './store.js';
-import { Add } from '../add/add.js';
+import CategoryStore from './store.js';
+import Add from '../add/add.js';
 
-export class AddCategory extends React.Component {
+export default class AddCategory extends React.Component {
 	constructor(props) {
 		super(props);
 

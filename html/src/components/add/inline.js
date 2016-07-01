@@ -1,6 +1,6 @@
 import React from 'react'
 
-export class InlineAdd extends React.Component {
+export default class InlineAdd extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
