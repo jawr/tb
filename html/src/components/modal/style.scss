@@ -1,0 +1,26 @@
+@import '../../sass/global.scss';
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0,0,0,.6);
+	padding-bottom: 5rem;
+	z-index: 20;
+}
+
+.modal {
+	@extend .panel;
+
+	max-height: 80%;
+	overflow: auto;
+	width: 85rem;
+	margin: 3rem auto;
+	background-color: #fff;
+}
+
+.body {
+	overflow: hidden;	
+}
