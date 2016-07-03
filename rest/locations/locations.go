@@ -2,15 +2,14 @@ package locations
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jawr/dns/rest/paginator"
 	"github.com/jawr/dns/rest/util"
-	"github.com/jawr/tb/database/models/activities"
 	db "github.com/jawr/tb/database/models/locations"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 var routes = util.Routes{
@@ -27,10 +26,10 @@ var routes = util.Routes{
 		ByID(serve),
 	},
 	util.Route{
-		"FindAndAdd",
+		"Find",
 		"POST",
-		"/find-and-add",
-		FindAndAdd,
+		"/find",
+		Find,
 	},
 }
 
@@ -44,62 +43,63 @@ func Search(w http.ResponseWriter, r *http.Request, params url.Values, limit, of
 	util.ToJSON(res, err, w)
 }
 
-type FindAndAddJSON struct {
-	Postcode string              `json:"postcode"`
-	Activity activities.Activity `json:"activity"`
+type FindJSON struct {
+	Address  string `json:"address"`
+	Postcode string `json:"postcode"`
 }
 
-type PostcodesJSON struct {
-	Postcode  string  `json:"postcode"`
-	Longitude float64 `json:"longitude"`
-	Latitude  float64 `json:"latitude"`
+type mapQuestLocationJSON struct {
+	Point db.Point `json:"latLng"`
 }
 
-type PostcodesResponseJSON struct {
-	Result PostcodesJSON `json:"result"`
+type mapQuestResultJSON struct {
+	Locations []mapQuestLocationJSON `json:"locations"`
 }
 
-func FindAndAdd(w http.ResponseWriter, r *http.Request) {
+type mapQuestResponseJSON struct {
+	Results []mapQuestResultJSON `json:"results"`
+}
+
+func Find(w http.ResponseWriter, r *http.Request) {
 	// decode post
 	decoder := json.NewDecoder(r.Body)
-	var data FindAndAddJSON
+	var data FindJSON
 	err := decoder.Decode(&data)
 	if err != nil {
+		fmt.Println("Cant decode post")
 		util.Error(err, w)
 		return
 	}
-	// normalise postcode
-	postcode := strings.Replace(data.Postcode, " ", "", -1)
-	// get from postcodes.io
-	response, err := http.Get(fmt.Sprintf("http://api.postcodes.io/postcodes/%s", postcode))
+	// normalise address
+	address := url.QueryEscape(data.Address)
+	postcode := url.QueryEscape(data.Postcode)
+	// get from mapquest
+	url := fmt.Sprintf("http://www.mapquestapi.com/geocoding/v1/address?key=6WGIEYoKFmaUVYAVl0MUheK0dMyN1HW1&outFormat=json&postalCode=%s&areaAdmin1=GB&street=%s", postcode, address)
+	response, err := http.Get(url)
 	if err != nil {
+		fmt.Println("Can not get mapquest")
 		util.Error(err, w)
 		return
 	}
 	// decode response
 	defer response.Body.Close()
 	decoder = json.NewDecoder(response.Body)
-	var postcodeData PostcodesResponseJSON
-	err = decoder.Decode(&postcodeData)
+
+	var responseData mapQuestResponseJSON
+	err = decoder.Decode(&responseData)
 	if err != nil {
-		util.Error(err, w)
-		return
-	}
-	// create location
-	location, err := db.New(data.Postcode, postcodeData.Result.Latitude, postcodeData.Result.Longitude)
-	if err != nil {
+		fmt.Println("Can not decode mapquest")
 		util.Error(err, w)
 		return
 	}
 
-	// add location to activity in data
-	err = data.Activity.AddLocation(location)
-	if err != nil {
-		util.Error(err, w)
+	if len(responseData.Results) == 0 || len(responseData.Results[0].Locations) == 0 {
+		fmt.Println("Not enough results")
+		util.Error(errors.New("Unable to find any results"), w)
 		return
 	}
 
-	util.ToJSON(location, nil, w)
+	util.ToJSON(responseData.Results[0].Locations[0].Point, nil, w)
 }
 
 func ByID(fn func(http.ResponseWriter, *http.Request, []db.Location)) http.HandlerFunc {

@@ -8,17 +8,25 @@
 	bottom: 0;
 	background: rgba(0,0,0,.6);
 	padding-bottom: 5rem;
-	z-index: 20;
+	z-index: 1200;
 }
 
 .modal {
 	@extend .panel;
 
-	max-height: 80%;
+	max-height: 90%;
 	overflow: auto;
 	width: 85rem;
 	margin: 3rem auto;
 	background-color: #fff;
+	position: relative;
+	z-index: 1300;
+
+	h1 {
+		font-size: 3rem;
+	}
+
+	padding-bottom: 2rem;
 }
 
 .body {

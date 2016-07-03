@@ -6,19 +6,25 @@ const Actions = Flux.createActions([
 ]);
 
 const ModalStore = Flux.createStore({
+	// element to show in the modal
+	child: null,
 	actions: [
 		Actions._show,
 		Actions._hide
 	],
-	_show: function() {
+	_show: function(child) {
+		this.child = child;
 		this.emit('Show', true);
 	},
 	_hide: function() {
+		// perhaps we dont need to do this
+		this.child = null,
 		this.emit('Show', false);
 	},
 	exports: {
-		Show: function() { Actions._show() },
-		Hide: function() { Actions._hide() }
+		Show: function(child) { Actions._show(child) },
+		Hide: function() { Actions._hide() },
+		Child: function() { return this.child }
 	}
 });
 

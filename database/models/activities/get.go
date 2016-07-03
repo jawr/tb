@@ -25,15 +25,6 @@ func GetByCategoryID(id int) ([]Activity, error) {
 
 func parseRow(row connection.Row) (a Activity, err error) {
 	err = row.Scan(&a.ID, &a.Name, &a.Slug, &a.Category.ID, &a.Alive)
-	if err != nil {
-		return
-	}
-	err = a.Category.Sync()
-	a.Keywords, err = keywords.GetByActivityID(a.ID)
-	if err != nil {
-		return
-	}
-	a.Locations, err = locations.GetByActivityID(a.ID)
 	return
 }
 
@@ -54,5 +45,20 @@ func GetList(query string, args ...interface{}) (res []Activity, err error) {
 		}
 		res = append(res, rt)
 	}
-	return res, rows.Err()
+	if rows.Err() != nil {
+		return res, rows.Err()
+	}
+	for idx, _ := range res {
+		a := &res[idx]
+		err = a.Category.Sync()
+		a.Keywords, err = keywords.GetByActivityID(a.ID)
+		if err != nil {
+			return res, err
+		}
+		a.Locations, err = locations.GetByActivityID(a.ID)
+		if err != nil {
+			return res, err
+		}
+	}
+	return res, nil
 }

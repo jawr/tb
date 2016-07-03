@@ -3,7 +3,8 @@ import ActivityStore from '../activity/store.js'
 
 const Actions = Flux.createActions([
 	'_insert',
-	'_delete'
+	'_delete',
+	'_find'
 ]);
 
 const URL = 'http://jess.lawrence.pm/tb/api/v1/locations/';
@@ -12,7 +13,8 @@ const LocationStore = Flux.createStore({
 	// actions
 	actions: [
 		Actions._insert,
-		Actions._delete
+		Actions._delete,
+		Actions._find
 	],
 	_insert: function(_id, postcode, activity) {
 		const self = this;
@@ -20,7 +22,7 @@ const LocationStore = Flux.createStore({
 			postcode: postcode,
 			activity: activity
 		};
-		$.post(URL + 'find-and-add', JSON.stringify(obj))
+		$.post(URL, JSON.stringify(obj))
 		.done(function(data) {
 			const _obj = JSON.parse(data);
 			self.emit('Insert.'+_id, _obj);
@@ -44,13 +46,23 @@ const LocationStore = Flux.createStore({
 			self.emit('Delete.Fail', JSON.parse(data));
 		});
 	},
+	_find: function(obj) {
+		const self = this;
+		$.post(URL+'find', JSON.stringify(obj))
+		.done(function(data) {
+			const _obj = JSON.parse(data);
+			self.emit('Find', _obj);
+		})
+		.fail(function(data) {
+			self.emit('Find.Fail', JSON.parse(data))
+		});
+	},
 	exports: {
-		Insert: function(_id, postcode, activity) {
-			Actions._insert(_id, postcode, activity);
+		Insert: function(_id, postcode, activity) { 
+			Actions._insert(_id, postcode, activity) 
 		},
-		Delete: function(obj) {
-			Actions._delete(obj);
-		}
+		Delete: function(obj) { Actions._delete(obj) },
+		Find: function(obj) { Actions._find(obj) }
 	}
 });
 

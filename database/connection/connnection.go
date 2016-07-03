@@ -68,6 +68,9 @@ func (c *connection) setup() error {
 	if err != nil {
 		return err
 	}
+	// setup pooling
+	conn.SetMaxOpenConns(2)
+	conn.SetMaxIdleConns(2)
 	c.db = conn
 	return nil
 }

@@ -1,5 +1,8 @@
-.location {
+@import '../../sass/global.scss';
+
+.location, .map {
 	height: 320px;
+	margin-bottom: 2rem;
 }
 
 .locations {
@@ -22,3 +25,35 @@
 	}
 }
 
+.add {
+
+}
+
+.addLocation {
+
+	.modes {
+
+		.mode {
+			@extend .label;
+			cursor: pointer;
+			margin-right: 1rem;
+		}
+
+		.active {
+			@extend .mode;
+			background-color: #eee;
+		}
+
+		margin-bottom: 2rem;
+	}
+
+}
+
+.step {
+	button {
+		margin-right: 2rem;
+	}
+	input[type="submit"] {
+		margin-right: 2rem;
+	}
+}
