@@ -2,6 +2,23 @@
 	height: 320px;
 }
 
-.activeLocation {
-	border-right: 3px solid #33C3F0;
+.locations {
+	table {
+		margin-top: 2rem;
+
+		th:first-child, td:first-child {
+			padding: 12px 15px;
+		}
+
+		tr {
+			&.active {
+				border-right: 3px solid #33C3F0;
+				border-left: 3px solid #33C3F0;
+			}
+
+			border-right: 3px solid transparent;
+			border-left: 3px solid transparent;
+		}
+	}
 }
+

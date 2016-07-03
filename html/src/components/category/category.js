@@ -44,7 +44,7 @@ export default class Category extends React.Component {
 				}
 				return (
 					<tr key={idx}>
-						<td><Link to={`/tb/activity/${i.name}/${i.id}`}>{i.name}</Link></td>
+						<td><Link to={`/activity/${i.name}/${i.id}`}>{i.name}</Link></td>
 						<td>{i.slug}</td>
 						<td>{keywords}</td>
 						<td>{(i.locations) ? i.locations.length : 0}</td>

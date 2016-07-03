@@ -6,7 +6,7 @@ const Actions = Flux.createActions([
 	'_delete'
 ]);
 
-const URL = '/tb/api/v1/locations/';
+const URL = 'http://jess.lawrence.pm/tb/api/v1/locations/';
 
 const LocationStore = Flux.createStore({
 	// actions

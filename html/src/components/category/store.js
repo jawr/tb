@@ -6,7 +6,7 @@ const Actions = Flux.createActions([
 	'_getAll'
 ]);
 
-const URL = '/tb/api/v1/categories/';
+const URL = 'http://jess.lawrence.pm/tb/api/v1/categories/';
 
 const CategoryStore = Flux.createStore({
 	// state

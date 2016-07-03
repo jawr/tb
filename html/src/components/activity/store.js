@@ -7,7 +7,7 @@ const Actions = Flux.createActions([
 	'_getByID'
 ]);
 
-const URL = '/tb/api/v1/activities/';
+const URL = 'http://jess.lawrence.pm/tb/api/v1/activities/';
 
 const ActivityStore = Flux.createStore({
 	// state

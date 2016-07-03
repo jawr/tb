@@ -2,36 +2,54 @@ var webpack = require('webpack');
 var path = require('path');
 
 const APP_PATH = path.resolve(__dirname, 'src');
-const BUILD_DIR = path.resolve(__dirname, 'www')
+const BUILD_DIR = path.resolve(__dirname, 'assets');
+const PUBLIC_DIR = '/assets/';
 
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let extractCSS = new ExtractTextPlugin('/css/app.css');
+// for dist todo later extractCSS('css?modules....')
+//
+//let extractCSS = new ExtractTextPlugin('/css/app.css');
 
 var config = {
-	entry: APP_PATH + '/main.js',
+	entry: [
+		'webpack-dev-server/client?http://jess.lawrence.pm:3000',
+		'webpack/hot/only-dev-server',
+		APP_PATH + '/main.js'
+	],
 	output: {
 		filename: '/js/app.js',
-		path: BUILD_DIR
+		path: BUILD_DIR,
+		publicPath: PUBLIC_DIR
 	},
 	module: {
 		loaders: [
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				loader: 'babel'
+				loaders: ['react-hot', 'babel']
 			},
 			{
 				test: /\.scss$/,
 				exclude: /node_modules/,
-				loader: extractCSS.extract(['css?modules&localIdentName=[path][name]---[local]','sass'])
+				loaders: ['style-loader', 'css?modules&localIdentName=[path][name]---[local]', 'sass']
 			}
 		]
 	},
 	plugins: [
-		extractCSS
+		// dev extractCSS,
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoErrorsPlugin()
 	],
 	resolve: {
 		extensions: ['', '.js']
+	},
+	devServer: {
+		hot: true,
+		historyApiFallback: false,
+		quiet: false,
+		watchOptions: {
+			aggregateTimeout: 100
+		}
 	}
 }
 

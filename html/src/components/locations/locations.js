@@ -65,31 +65,32 @@ export default class Locations extends React.Component {
 		const locations = this.props.locations.map(function(i, idx) {
 			let className = null;
 			if (self.state.mouseOver && self.state.mouseOver.id == i.id) 
-				className = style.activeLocation;
+				className = style.active;
 			return (
-				<tr key={idx}>
-					<td className={className}>{i.name}</td>
+				<tr key={idx} className={className}>
+					<td>{i.name}</td>
+					<td>{i.address}</td>
 				</tr>
 			)
 		});
 		return (
-			<div>
+			<div className={style.locations}>
 				<div className="row">
-					<div className="four columns">
-						<table className="u-full-width">
-							<thead>
-								<tr>
-									<th>Location</th>
-								</tr>
-							</thead>
-							<tbody>
-								{locations}
-							</tbody>
-						</table>
-					</div>
-					<div className="eight columns">
-						{this.renderLocation()}
-					</div>
+					{this.renderLocation()}
+					<br className="u-cf" />
+				</div>
+				<div className="row">
+					<table className="u-full-width">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Address</th>
+							</tr>
+						</thead>
+						<tbody>
+							{locations}
+						</tbody>
+					</table>
 				</div>
 				<div className="row">
 					<br />
