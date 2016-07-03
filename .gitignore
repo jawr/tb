@@ -34,5 +34,6 @@ _testmain.go
 *.test
 *.prof
 
-html/www/js/
 *.old
+html/assets/js/
+html/assets/css/app.css*
