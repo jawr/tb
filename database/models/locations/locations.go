@@ -3,13 +3,20 @@ package locations
 import (
 	"encoding/json"
 	"github.com/jawr/tb/database/connection"
+	"github.com/jawr/tb/database/utils"
 )
 
+type Meta struct {
+	Phone    string `json:"phone"`
+	Address  string `json:"address"`
+	Postcode string `json:"postcode"`
+}
+
 type Location struct {
-	ID      int    `json:"id"`
-	Name    string `json:"name"`
-	Point   Point  `json:"point"`
-	Address string `json:"address"`
+	ID    int    `json:"id"`
+	Name  string `json:"name"`
+	Point Point  `json:"point"`
+	Meta  Meta   `json:"meta"`
 }
 
 type Locations []Location
@@ -38,9 +45,9 @@ func (l Location) Save() (err error) {
 		return
 	}
 	_, err = conn.Exec(
-		"UPDATE location SET name = $1, address = $2 WHERE id = $3",
+		"UPDATE location SET name = $1, meta = $2 WHERE id = $3",
 		l.Name,
-		l.Address,
+		utils.ToJSON(l.Meta),
 		l.ID,
 	)
 	return

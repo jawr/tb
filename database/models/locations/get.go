@@ -1,6 +1,7 @@
 package locations
 
 import (
+	"encoding/json"
 	"github.com/jawr/tb/database/connection"
 )
 
@@ -25,7 +26,12 @@ func GetByActivityID(id int) ([]Location, error) {
 }
 
 func parseRow(row connection.Row) (l Location, err error) {
-	err = row.Scan(&l.ID, &l.Name, &l.Point, &l.Address)
+	var meta []byte
+	err = row.Scan(&l.ID, &l.Name, &l.Point, &meta)
+	if err != nil {
+		return l, err
+	}
+	err = json.Unmarshal(meta, &l.Meta)
 	return
 }
 

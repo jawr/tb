@@ -1,0 +1,27 @@
+.bread {
+	margin-bottom: 2rem;
+	border: 1px solid #e1e1e1;
+	margin-left: 2px;
+	display: inline-block;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	border-radius: 4px;
+}
+
+.crumb {
+	padding-right: 1.5rem;
+	padding-left: 1.5rem;
+	border-right: 1px solid #e1e1e1;
+	height: 100%;
+	display: inline-block;
+	a {
+		text-decoration: none;
+	}
+}
+
+.current {
+	@extend .crumb;
+	border-right: none;
+	cursor: default;
+	background-color: #eee;
+}
