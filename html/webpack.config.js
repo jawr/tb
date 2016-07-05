@@ -30,7 +30,7 @@ var config = {
 			},
 			{
 				test: /\.scss$/,
-				exclude: /node_modules/,
+				exclude: /(node_modules|assets\/css)/,
 				loaders: ['style-loader', 'css?modules&localIdentName=[path][name]---[local]', 'sass']
 			}
 		]

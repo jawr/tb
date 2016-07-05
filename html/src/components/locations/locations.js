@@ -28,6 +28,7 @@ export default class Locations extends React.Component {
 
 
 	renderLocation() {
+		if (this.props.locations.length == 0) return null
 		const self = this;
 		const markers = this.props.locations.map(function(i, idx) {
 			return (
@@ -44,7 +45,7 @@ export default class Locations extends React.Component {
 			)
 		});
 		const center = this.props.locations[0].point;
-		return (
+		const map = (
 			<Map
 				className={style.location}
 				key={markers.length}
@@ -58,26 +59,24 @@ export default class Locations extends React.Component {
 				{markers}
 			</Map>
 		)
-	}
-
-	render() {
-		const self = this;
 		const locations = this.props.locations.map(function(i, idx) {
 			let className = null;
 			if (self.state.mouseOver && self.state.mouseOver.id == i.id) 
 				className = style.active;
+			let address = null;
+			if (i.meta.address.length > 0)
+				address = i.meta.address + ', ' + i.meta.postcode;
 			return (
 				<tr key={idx} className={className}>
 					<td>{i.name}</td>
-					<td>{i.address}</td>
+					<td>{address}</td>
 				</tr>
 			)
 		});
 		return (
-			<div className={style.locations}>
+			<div>
 				<div className="row">
-					{this.renderLocation()}
-					<br className="u-cf" />
+					{map}
 				</div>
 				<div className="row">
 					<table className="u-full-width">
@@ -92,6 +91,14 @@ export default class Locations extends React.Component {
 						</tbody>
 					</table>
 				</div>
+			</div>
+		)
+	}
+
+	render() {
+		return (
+			<div className={style.locations}>
+					{this.renderLocation()}
 				<div className="row">
 					<br />
 					<AddLocation activity={this.props.activity} />

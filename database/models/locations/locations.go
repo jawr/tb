@@ -3,7 +3,9 @@ package locations
 import (
 	"encoding/json"
 	"github.com/jawr/tb/database/connection"
+	"github.com/jawr/tb/database/models/approved"
 	"github.com/jawr/tb/database/utils"
+	"time"
 )
 
 type Meta struct {
@@ -13,10 +15,13 @@ type Meta struct {
 }
 
 type Location struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Point Point  `json:"point"`
-	Meta  Meta   `json:"meta"`
+	ID           int           `json:"id"`
+	Name         string        `json:"name"`
+	Point        Point         `json:"point"`
+	Meta         Meta          `json:"meta"`
+	AddedAt      time.Time     `json:"added_at"`
+	Approved     bool          `json:"approved"`
+	ApprovedMeta approved.Meta `json:"approved_meta"`
 }
 
 type Locations []Location

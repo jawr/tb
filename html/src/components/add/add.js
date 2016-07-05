@@ -31,12 +31,12 @@ export default class Add extends React.Component {
 	render() {
 		const config = this.state.config;
 		const busy = this.state.busy;
-		let headerClass = style.header;
-		let form = null;
+
+		let child = null;
 		if (this.state.show) {
-			headerClass = style.headerActive;
-			form = (
+			child = (
 				<div>
+					<h1>{config.header}</h1>
 					<div className="row">
 						<form>
 							<input 
@@ -55,11 +55,16 @@ export default class Add extends React.Component {
 					</div>
 				</div>
 			)
+		} else {
+			child = (
+				<button 
+					onClick={this.handleHeaderClick}
+					className="button">{config.header}</button>
+			)
 		}
 		return(
 			<div className={style.add}>
-				<h1 onClick={this.handleHeaderClick} className={headerClass}>{config.header}</h1>
-				{form}
+				{child}
 			</div>
 		)
 	}

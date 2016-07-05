@@ -16,16 +16,15 @@ const LocationStore = Flux.createStore({
 		Actions._delete,
 		Actions._find
 	],
-	_insert: function(_id, postcode, activity) {
+	_insert: function(_id, location, activity) {
 		const self = this;
 		const obj = {
-			postcode: postcode,
+			location: location,
 			activity: activity
 		};
 		$.post(URL, JSON.stringify(obj))
 		.done(function(data) {
-			const _obj = JSON.parse(data);
-			self.emit('Insert.'+_id, _obj);
+			self.emit('Insert.'+_id);
 			ActivityStore.GetByID(activity.id);
 		})
 		.fail(function(data) {
@@ -58,8 +57,8 @@ const LocationStore = Flux.createStore({
 		});
 	},
 	exports: {
-		Insert: function(_id, postcode, activity) { 
-			Actions._insert(_id, postcode, activity) 
+		Insert: function(_id, location, activity) { 
+			Actions._insert(_id, location, activity) 
 		},
 		Delete: function(obj) { Actions._delete(obj) },
 		Find: function(obj) { Actions._find(obj) }

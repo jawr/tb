@@ -1,6 +1,7 @@
 package activities
 
 import (
+	"encoding/json"
 	"github.com/jawr/tb/database/connection"
 	"github.com/jawr/tb/database/models/keywords"
 	"github.com/jawr/tb/database/models/locations"
@@ -24,7 +25,21 @@ func GetByCategoryID(id int) ([]Activity, error) {
 }
 
 func parseRow(row connection.Row) (a Activity, err error) {
-	err = row.Scan(&a.ID, &a.Name, &a.Slug, &a.Category.ID, &a.Alive)
+	var approvedMeta []byte
+	err = row.Scan(
+		&a.ID,
+		&a.Name,
+		&a.Slug,
+		&a.Category.ID,
+		&a.Alive,
+		&a.AddedAt,
+		&a.Approved,
+		&approvedMeta,
+	)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(approvedMeta, &a.ApprovedMeta)
 	return
 }
 

@@ -28,11 +28,8 @@ const ActivityStore = Flux.createStore({
 		$.post(URL, JSON.stringify(obj))
 		.done(function(data) {
 			const _obj = JSON.parse(data);
-			if (!(category.id in self.activities))
-				self.activities[category.id] = [];
-			self.activities[category.id].push(_obj);
 			self.emit('Insert.'+_id, _obj);
-			self.emit('Get.Cat.'+category.id);
+			self.emit('Get.Cat.'+category.id, _obj);
 		})
 		.fail(function(data) {
 			self.emit('Insert.'+_id+'.Fail', JSON.parse(data));
@@ -46,28 +43,18 @@ const ActivityStore = Flux.createStore({
 			data: JSON.stringify(obj)
 		})
 		.done(function(data) {
-			const category = obj.category;
-			if (category.id in self.activities) {
-				self.activities[category.id] = self.activities[category.id].filter(
-					function(e) { return e.id !== obj.id }
-				);
-			}
-			self.emit('Delete', obj);
+			self.emit('Delete', null);
 			self.emit('Get.Cat.'+category.id);
 		})
 		.fail(function(data) {
 			self.emit('Delete.Fail', JSON.parse(data));
 		});
 	},
-	_getByCategory: function(category) {
+	_getByCategory: function(id) {
 		const self = this;
-		$.get(URL+'category/'+category.id)
+		$.get(URL+'category/'+id)
 		.done(function(data) {
-			const list = JSON.parse(data);
-			if (list.length > 0) {
-				self.activities[category.id] = list;
-			}
-			self.emit('Get.Cat.'+category.id);
+			self.emit('Get.Cat.'+id, JSON.parse(data));
 		})
 		.fail(function(data) {
 			self.emit('Get.Cat.Fail');
@@ -85,23 +72,10 @@ const ActivityStore = Flux.createStore({
 		});
 	},
 	exports: {
-		Insert: function(_id, name, category) {
-			Actions._insert(_id, name, category);
-		},
-		Delete: function(obj) {
-			Actions._delete(obj);
-		},
-		GetByCategory: function(category) {
-			Actions._getByCategory(category);
-		},
-		GetByID: function(id) {
-			Actions._getByID(id);
-		},
-		//
-		ByCategory: function(category) {
-
-			return this.activities[category.id] || [];
-		}
+		Insert: function(_id, name, category) { Actions._insert(_id, name, category) },
+		Delete: function(obj) { Actions._delete(obj) },
+		GetByCategory: function(id) { Actions._getByCategory(id) },
+		GetByID: function(id) { Actions._getByID(id) }
 	}
 });
 

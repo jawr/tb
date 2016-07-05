@@ -2,12 +2,18 @@ package categories
 
 import (
 	"github.com/jawr/tb/database/connection"
+	"github.com/jawr/tb/database/models/approved"
+	"time"
 )
 
 type Category struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Alive bool   `json:"alive"`
+	ID            int           `json:"id"`
+	Name          string        `json:"name"`
+	Alive         bool          `json:"alive"`
+	AddedAt       time.Time     `json:"added_at"`
+	Approved      bool          `json:"approved"`
+	ApprovedMeta  approved.Meta `json:"approved_meta"`
+	ActivityCount int           `json:"activity_count"`
 }
 
 func New(name string) (c Category, err error) {

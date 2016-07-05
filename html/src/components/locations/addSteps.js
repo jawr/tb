@@ -3,6 +3,8 @@ import { Map, Marker, TileLayer } from 'react-leaflet'
 import { PostcodeMode, MapMode } from './modes/modes.js'
 import LocationModeStore from './modes/store.js'
 import LocationStore from './store.js'
+import ModalStore from '../modal/store.js'
+import Spinner from '../utils/spinner/spinner.js'
 import style from './style.scss'
 
 const MODES = ['map', 'postcode'];
@@ -90,7 +92,7 @@ export class StepTwo extends React.Component {
 	}
 	
 	render() {
-		if (!this.state.point) return null
+		if (!this.state.point) return <Spinner />
 
 		// get from users location
 		const center = this.state.point;
@@ -125,7 +127,9 @@ export class StepThree extends React.Component {
 		const phone = form.querySelector('[name="phone"]').value;
 		let location = this.props.location;
 		location.meta = {
-			phone: phone
+			phone: phone,
+			address: location.address,
+			postcode: location.postcode
 		};
 		LocationModeStore.Next(location);
 	}
@@ -152,8 +156,8 @@ export class StepThree extends React.Component {
 							/>
 						</div>
 					</div>
-					<input className="button-primary" type="submit" value="next" />
-					<button onClick={this.handleSkip} className="button">Skip</button>
+					<input className="button-primary" type="submit" value="Save" />
+					<button onClick={this.handleSkip} className="button">Skip & Save</button>
 				</form>
 			</div>
 		)
@@ -161,13 +165,25 @@ export class StepThree extends React.Component {
 }
 
 export class StepFour extends React.Component {
-	render() {
-		return (
-			<div>
-				<h1>Almost Done</h1>
-				<pre><code>{JSON.stringify(this.props.location)}</code></pre>
-			</div>
+	constructor(props) {
+		super(props);
+		this.state = {
+			id: Math.random().toString(36).substr(2, 9)
+		};
 
-		)
+		LocationStore.on('Insert.'+this.state.id, this.handleInsert);
+		LocationStore.Insert(this.state.id, this.props.location, this.props.activity);
+	}
+
+	handleInsert = () => {
+		ModalStore.Hide();
+	}
+
+	componentWillUnmount() {
+		LocationStore.off('Insert.'+this.state.id, this.handleInsert);
+	}
+
+	render() {
+		return 	<Spinner>Saving Location...</Spinner>
 	}
 }

@@ -3,6 +3,9 @@ CREATE TABLE category (
 	id serial,
 	name text,
 	alive boolean default true,
+	added_at timestamp with time zone default current_timestamp,
+	approved boolean default false,
+	approved_meta jsonb default '{}'::jsonb,
 	PRIMARY KEY (id),
 	UNIQUE (name)
 );
@@ -14,6 +17,9 @@ CREATE TABLE activity (
 	slug text not null default '',
 	category_id integer,
 	alive boolean default true,
+	added_at timestamp with time zone default current_timestamp,
+	approved boolean default false,
+	approved_meta jsonb default '{}'::jsonb,
 	PRIMARY KEY (id),
 	UNIQUE (name, category_id)
 );
@@ -31,7 +37,10 @@ CREATE TABLE location (
 	id serial,
 	name text,
 	point geography(point, 4326),
-	address text default '',
+	meta jsonb default '{}'::jsonb,
+	added_at timestamp with time zone default current_timestamp,
+	approved boolean default false,
+	approved_meta jsonb default '{}'::jsonb,
 	PRIMARY KEY (id),
 	UNIQUE (point)
 );

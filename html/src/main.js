@@ -4,6 +4,7 @@ import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router'
 
 import Nav from './components/nav/nav.js'
 import Categories from './components/category/categories.js'
+import Category from './components/category/category.js'
 import Activity from './components/activity/activity.js'
 import Modal from './components/modal/modal.js'
 
@@ -30,7 +31,8 @@ const router = (
 		<Route path="/" component={App}>
 			<IndexRoute component={Categories} />
 			<Route path="categories" component={Categories} />
-			<Route path="activity/:name/:id" component={Activity} />
+			<Route path="category/:id" component={Category} />
+			<Route path="activity/:id" component={Activity} />
 		</Route>
 	</Router>
 )

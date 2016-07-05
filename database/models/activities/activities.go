@@ -2,19 +2,24 @@ package activities
 
 import (
 	"github.com/jawr/tb/database/connection"
+	"github.com/jawr/tb/database/models/approved"
 	"github.com/jawr/tb/database/models/categories"
 	"github.com/jawr/tb/database/models/keywords"
 	"github.com/jawr/tb/database/models/locations"
+	"time"
 )
 
 type Activity struct {
-	ID        int                 `json:"id"`
-	Name      string              `json:"name"`
-	Slug      string              `json:"slug"`
-	Category  categories.Category `json:"category"`
-	Keywords  keywords.Keywords   `json:"keywords"`
-	Locations locations.Locations `json:"locations"`
-	Alive     bool                `json:"alive"`
+	ID           int                 `json:"id"`
+	Name         string              `json:"name"`
+	Slug         string              `json:"slug"`
+	Category     categories.Category `json:"category"`
+	Keywords     keywords.Keywords   `json:"keywords"`
+	Locations    locations.Locations `json:"locations"`
+	Alive        bool                `json:"alive"`
+	AddedAt      time.Time           `json:"added_at"`
+	Approved     bool                `json:"approved"`
+	ApprovedMeta approved.Meta       `json:"approved_meta"`
 }
 
 func New(name string, cat categories.Category) (a Activity, err error) {

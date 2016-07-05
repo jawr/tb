@@ -8,40 +8,32 @@
 	height: 5rem;
 	background-color: #fff;
 	border-bottom: 1px solid #eee;
-	z-index: 10;
+	z-index: 1100;
 
+	padding: 0 2rem;
 
 	h1 {
-		@extend .tran-color;
 
-		&:hover {
-			color: #eee;
+		small {
+			font-size: 1.4rem;
+			position: relative;
+			top: -10px;
 		}
 
-		a {
-			text-decoration: none;
-			font-weight: 300;
-			color: #555;
-		}
-
-		cursor: pointer;
 
 		font-size: 3rem;
 		line-height: 5rem;
-		margin-left: 0.6rem;
 
-		width: 3rem;
-
-		display: inline;
+		display: inline-block;
 	}
 
 	ul {
-		display: inline;
+		display: inline-block;
+		float: right;
 		list-style-type: none;
 		line-height: 5rem;
-		margin-right: 0.6rem;
-		position: fixed;
-		right: 0;
+		margin-right: 2rem;
+
 		li {
 			float: left;
 			display: block;
@@ -59,4 +51,42 @@
 
 .wrapper {
 	padding-top: 7rem;
+	padding-bottom: 7rem;
+}
+
+.options {
+	display: inline-block;
+	float: right;
+
+	height: 5rem;
+	padding-left: 2rem;
+
+	border-left: 1px solid #e1e1e1;
+
+	.menu {
+		width: 2.5rem;
+		height: 2.5rem;
+		margin-top: 1.8rem;
+
+		cursor: pointer;
+
+		span {
+			display: block;
+			border-radius: 4px;
+			width: 2.5rem;
+			content: '';
+			border: 1px solid #e1e1e1;
+			margin-bottom: 4px;
+
+		}
+
+		&:hover span {
+			border: 1px solid #333;
+			
+		}
+
+		span:last-child {
+			margin-bottom: 0;
+		}
+	}
 }

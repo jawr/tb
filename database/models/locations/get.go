@@ -26,12 +26,24 @@ func GetByActivityID(id int) ([]Location, error) {
 }
 
 func parseRow(row connection.Row) (l Location, err error) {
-	var meta []byte
-	err = row.Scan(&l.ID, &l.Name, &l.Point, &meta)
+	var meta, approvedMeta []byte
+	err = row.Scan(
+		&l.ID,
+		&l.Name,
+		&l.Point,
+		&meta,
+		&l.AddedAt,
+		&l.Approved,
+		&approvedMeta,
+	)
 	if err != nil {
-		return l, err
+		return
 	}
 	err = json.Unmarshal(meta, &l.Meta)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(approvedMeta, &l.ApprovedMeta)
 	return
 }
 

@@ -7,20 +7,8 @@ import { StepOne, StepTwo, StepThree, StepFour } from './addSteps.js'
 import style from './style.scss'
 
 export default class AddLocation extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			id: Math.random().toString(36).substr(2, 9)
-		};
-
-		// store handlers
-		// LocationStore.on('Insert.'+this.state.id, this.handleInsert);
-
-	}
-
 	handleAddClick = () => {
-		const child = <AddLocationModal id={this.state.id} activity={this.props.activity} />
+		const child = <AddLocationModal activity={this.props.activity} />
 		ModalStore.Show(child);
 	}
 
@@ -59,7 +47,7 @@ class AddLocationModal extends React.Component {
 	render() {
 
 		if (this.state.location && this.state.location.meta) {
-			return <StepFour location={this.state.location} />
+			return <StepFour location={this.state.location} activity={this.props.activity}/>
 		} else if (this.state.location && this.state.location.point) {
 			return <StepThree location={this.state.location} />
 		} else if (this.state.location) {

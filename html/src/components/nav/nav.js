@@ -11,11 +11,19 @@ export default class Nav extends React.Component {
 		return (
 			<div className={style.wrapper}>
 				<div className={style.bar}>
-					<h1><Link to="/tb/">TB</Link></h1>
+					<h1><i className="fa fa-heartbeat" aria-hidden={true}></i> <small>Training Buddy</small></h1>
+
+					<span className={style.options}>
+						<div className={style.menu}>
+							<span />
+							<span />
+							<span />
+						</div>
+					</span>
 
 					<ul>
-						<li><Link to="/">Home</Link></li>
-						<li><Link to="/about">About</Link></li>
+						<li><Link to="/">Categories</Link></li>
+						<li><Link to="/">Pending</Link></li>
 					</ul>
 				</div>
 

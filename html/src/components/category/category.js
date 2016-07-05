@@ -2,24 +2,38 @@ import React from 'react'
 import { Link } from 'react-router'
 import AddActivity from '../activity/add.js'
 import ActivityStore from '../activity/store.js'
+import CategoryStore from './store.js'
 import Keyword from '../keyword/keyword.js'
 import style from './style.scss'
+import Spinner from '../utils/spinner/spinner.js'
+import Breadcrumb from '../utils/breadcrumb/breadcrumb.js'
 
 export default class Category extends React.Component {
 	constructor(props) {
 		super(props);
 
-		ActivityStore.on('Get.Cat.' + props.category.id, this.handleCategoryChange);
+		this.state = {
+			category: null,
+			activities: null
+		};
 
-		ActivityStore.GetByCategory(this.props.category);
+		CategoryStore.on('Get', this.handleGet);
+		ActivityStore.on('Get.Cat.' + this.props.params.id, this.handleGetActivities);
+		CategoryStore.Get(this.props.params.id);
+		ActivityStore.GetByCategory(this.props.params.id);
 	}
 
 	componentWillUnmount() {
-		ActivityStore.off('Get.Cat.' + this.props.category.id, this.handleCategoryChange);
+		CategoryStore.off('Get', this.handleGet);
+		ActivityStore.off('Get.Cat.' + this.props.params.id, this.handleGetActivities);
 	}
 
-	handleCategoryChange = () => {
-		this.setState({});
+	handleGet = (category) => {
+		this.setState({category: category})
+	}
+
+	handleGetActivities = (activities) => {
+		this.setState({activities: activities})
 	}
 
 	handleActivityDelete = (activity) => {
@@ -27,8 +41,9 @@ export default class Category extends React.Component {
 	}
 
 	renderActivities = () => {
+		if (!this.state.activities) return <Spinner />
 		const self = this;
-		const activities = ActivityStore.ByCategory(this.props.category).map(
+		const activities = this.state.activities.map(
 			function(i, idx) {
 				// possibly turn in to a component
 				const menu = (
@@ -44,11 +59,11 @@ export default class Category extends React.Component {
 				}
 				return (
 					<tr key={idx}>
-						<td><Link to={`/activity/${i.name}/${i.id}`}>{i.name}</Link></td>
+						<td><Link to={`/activity/${i.id}`}>{i.name}</Link></td>
 						<td>{i.slug}</td>
-						<td>{keywords}</td>
+						<td>{keywords || 0}</td>
 						<td>{(i.locations) ? i.locations.length : 0}</td>
-						<td>{menu}</td>
+						<td>n/a</td>
 					</tr>
 				)
 			}
@@ -61,7 +76,7 @@ export default class Category extends React.Component {
 						<th>Slug</th>
 						<th>Keywords</th>
 						<th>Locations</th>
-						<th></th>
+						<th>Users</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -72,17 +87,20 @@ export default class Category extends React.Component {
 	}
 
 	render() {
-		const category = this.props.category;
+		if (!this.state.category) return <Spinner />
+		const category = this.state.category;
 		return (
-			<div className={style.category}>
-				<h5>{category.name}</h5>
-				{this.renderActivities()}
-				<AddActivity category={category} />
+			<div>	
+				<Breadcrumb>
+					<Link to="/">Categories</Link>
+					<span>{category.name}</span>
+				</Breadcrumb>
+				<div className={style.category}>
+					<h5>{category.name}</h5>
+					{this.renderActivities()}
+					<AddActivity category={category} />
+				</div>
 			</div>
 		)
 	}
-}
-
-Category.propTypes = {
-	category: React.PropTypes.object.isRequired
 }
