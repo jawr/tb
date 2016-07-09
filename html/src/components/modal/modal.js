@@ -45,7 +45,7 @@ export default class Modal extends React.Component {
 	// deconstruct jquery requirements
 	teardown() {
 		$('body').removeClass(style.body);
-		$(document).off('click');
+		$('.modal').off('click');
 		$(document).off('keyup');
 	}
 

@@ -1,0 +1,15 @@
+.child {
+	padding: 1rem 2rem;
+	cursor: pointer !important;
+	&:hover {
+		background-color: #e1e1e1;
+	}
+}
+
+.dropdown {
+	position: absolute;
+	right: 0;
+	background-color: #fff;
+	min-width: 12rem;
+	border: 1px solid #eee;
+}

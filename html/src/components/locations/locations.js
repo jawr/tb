@@ -26,17 +26,24 @@ export default class Locations extends React.Component {
 		this.setState({mouseOver: null});
 	}
 
-
 	renderLocation() {
 		if (this.props.locations.length == 0) return null
 		const self = this;
 		const markers = this.props.locations.map(function(i, idx) {
+			let opacity = 0.6;
+			let zIndex = 0;
+			if (self.state.mouseOver && self.state.mouseOver.id == i.id) {
+				opacity = 1;
+				zIndex = 250;
+			}
 			return (
 				<Marker 
 					position={i.point} 
 					key={idx} 
-					onMouseover={self.handleMarkerMouseover.bind(self, i)}
-					onMouseout={self.handleMarkerMouseout}
+					onMouseOver={self.handleMarkerMouseover.bind(self, i)}
+					onMouseOut={self.handleMarkerMouseout}
+					opacity={opacity}
+					zIndexOffset={zIndex}
 				>
 					<Popup>
 						<span>{i.address}</span>
@@ -67,7 +74,10 @@ export default class Locations extends React.Component {
 			if (i.meta.address.length > 0)
 				address = i.meta.address + ', ' + i.meta.postcode;
 			return (
-				<tr key={idx} className={className}>
+				<tr key={idx} className={className}
+					onMouseOver={self.handleMarkerMouseover.bind(self, i)}
+					onMouseOut={self.handleMarkerMouseout}
+				>
 					<td>{i.name}</td>
 					<td>{address}</td>
 				</tr>
